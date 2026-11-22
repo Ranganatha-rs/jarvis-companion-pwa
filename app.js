@@ -374,6 +374,19 @@
       state.cryptoKey = await deriveSessionKey(state.pairing, state.sid);
       statusText("Requesting microphone permission…");
       state.stream = await navigator.mediaDevices.getUserMedia({audio: {echoCancellation: true, noiseSuppression: true, autoGainControl: true}, video: false});
+
+      const micTrack = state.stream.getAudioTracks()[0];
+
+      console.log("[JARVIS PHONE MIC]", {
+        settings: micTrack.getSettings(),
+        enabled: micTrack.enabled,
+        muted: micTrack.muted,
+        readyState: micTrack.readyState
+      });
+
+      micTrack.onmute = () => console.warn("[JARVIS PHONE MIC] MUTED");
+      micTrack.onunmute = () => console.log("[JARVIS PHONE MIC] UNMUTED");
+      micTrack.onended = () => console.error("[JARVIS PHONE MIC] ENDED");
       await openSignal(state.pairing.signalTopic, handlePhoneSignal);
       const pc = makePeerConnection();
       state.stream.getAudioTracks().forEach(track => pc.addTrack(track, state.stream));
