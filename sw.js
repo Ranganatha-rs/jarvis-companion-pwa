@@ -1,5 +1,5 @@
 "use strict";
-const CACHE = "jarvis-companion-v1";
+const CACHE = "jarvis-companion-v2";
 const CACHE_NAMESPACE = "jarvis-companion-";
 const ASSETS = ["./", "./index.html", "./app.js", "./audio-playback.js", "./audio-worklet.js", "./style.css", "./manifest.webmanifest", "./icon.svg"];
 self.addEventListener("install", event => event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(ASSETS))));
